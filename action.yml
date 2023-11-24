@@ -527,7 +527,7 @@ runs:
         echo "CA_GH_ACTION_ORYX_BUILDER_ENV_ARG=${CA_GH_ACTION_ORYX_BUILDER_ENV_ARG}" >> $GITHUB_ENV
 
     - name: Set build environment variables for builder invocation
-      if: ${{ inputs.appSourcePath != '' && env.CA_GH_ACTION_DOCKERFILE_PATH == '' && inputs.buildEnvironmentVariables != '' }}
+      if: ${{ inputs.appSourcePath != '' && inputs.buildEnvironmentVariables != '' }}
       shell: bash
       run: |
         for pair in ${{ env.buildEnvironmentVariables }}; do

@@ -88,6 +88,11 @@ inputs:
       for that stack will be used. If no stack is provided, this action will attempt to build the provided application
       source with each supported stack until there's a successful build.'
     required: false
+  buildEnvironmentVariables:
+    description: |
+      'A list of environment variable(s) used to configure the Buildpacks for image build. Space-separated values in 
+      'key=value' format. Empty string to clear existing values.'
+    required: false
   targetPort:
     description: |
       'The designated port for the application to run on. If no value is provided and the builder is used to build the
@@ -517,6 +522,18 @@ runs:
       if: ${{ inputs.appSourcePath != '' && env.CA_GH_ACTION_DOCKERFILE_PATH == '' && env.CA_GH_ACTION_TARGET_PORT != '' }}
       shell: bash
       run: |
+        # Iterate through each "key=value" pair in the BUILD_ENV variable
+        CA_GH_ACTION_ORYX_BUILDER_ENV_ARG="${CA_GH_ACTION_ORYX_BUILDER_ENV_ARG} --env ORYX_RUNTIME_PORT=${{ env.CA_GH_ACTION_TARGET_PORT }}"
+        echo "CA_GH_ACTION_ORYX_BUILDER_ENV_ARG=${CA_GH_ACTION_ORYX_BUILDER_ENV_ARG}" >> $GITHUB_ENV
+
+    - name: Set build environment variables for builder invocation
+      if: ${{ inputs.appSourcePath != '' && env.CA_GH_ACTION_DOCKERFILE_PATH == '' && env.buildEnvironmentVariables != '' }}
+      shell: bash
+      run: |
+        for pair in ${{ env.buildEnvironmentVariables }}; do
+          CA_GH_ACTION_ORYX_BUILDER_ENV_ARG="${CA_GH_ACTION_ORYX_BUILDER_ENV_ARG} --env ${pair}"
+          echo "CA_GH_ACTION_ORYX_BUILDER_ENV_ARG=${CA_GH_ACTION_ORYX_BUILDER_ENV_ARG}" >> $GITHUB_ENV
+        done
         CA_GH_ACTION_ORYX_BUILDER_ENV_ARG="${CA_GH_ACTION_ORYX_BUILDER_ENV_ARG} --env ORYX_RUNTIME_PORT=${{ env.CA_GH_ACTION_TARGET_PORT }}"
         echo "CA_GH_ACTION_ORYX_BUILDER_ENV_ARG=${CA_GH_ACTION_ORYX_BUILDER_ENV_ARG}" >> $GITHUB_ENV
 

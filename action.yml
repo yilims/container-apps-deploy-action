@@ -534,7 +534,6 @@ runs:
           CA_GH_ACTION_ORYX_BUILDER_ENV_ARG="${CA_GH_ACTION_ORYX_BUILDER_ENV_ARG} --env ${pair}"
           echo "CA_GH_ACTION_ORYX_BUILDER_ENV_ARG=${CA_GH_ACTION_ORYX_BUILDER_ENV_ARG}" >> $GITHUB_ENV
         done
-        CA_GH_ACTION_ORYX_BUILDER_ENV_ARG="${CA_GH_ACTION_ORYX_BUILDER_ENV_ARG} --env ORYX_RUNTIME_PORT=${{ env.CA_GH_ACTION_TARGET_PORT }}"
         echo "CA_GH_ACTION_ORYX_BUILDER_ENV_ARG=${CA_GH_ACTION_ORYX_BUILDER_ENV_ARG}" >> $GITHUB_ENV
 
     - name: Create runnable application image using bullseye Oryx++ Builder

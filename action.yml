@@ -522,12 +522,10 @@ runs:
       if: ${{ inputs.appSourcePath != '' && env.CA_GH_ACTION_DOCKERFILE_PATH == '' && env.CA_GH_ACTION_TARGET_PORT != '' }}
       shell: bash
       run: |
-        # Iterate through each "key=value" pair in the BUILD_ENV variable
         CA_GH_ACTION_ORYX_BUILDER_ENV_ARG="${CA_GH_ACTION_ORYX_BUILDER_ENV_ARG} --env ORYX_RUNTIME_PORT=${{ env.CA_GH_ACTION_TARGET_PORT }}"
         echo "CA_GH_ACTION_ORYX_BUILDER_ENV_ARG=${CA_GH_ACTION_ORYX_BUILDER_ENV_ARG}" >> $GITHUB_ENV
 
     - name: Set build environment variables for builder invocation
-      if: ${{ inputs.appSourcePath != '' && inputs.buildEnvironmentVariables != '' }}
       shell: bash
       run: |
         for pair in ${{ env.buildEnvironmentVariables }}; do

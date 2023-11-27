@@ -528,7 +528,7 @@ runs:
     - name: Set build environment variables for builder invocation
       shell: bash
       run: |
-        for pair in ${{ env.buildEnvironmentVariables }}; do
+        for pair in ${{ inputs.buildEnvironmentVariables }}; do
           CA_GH_ACTION_ORYX_BUILDER_ENV_ARG="${CA_GH_ACTION_ORYX_BUILDER_ENV_ARG} --env ${pair}"
           echo "CA_GH_ACTION_ORYX_BUILDER_ENV_ARG=${CA_GH_ACTION_ORYX_BUILDER_ENV_ARG}" >> $GITHUB_ENV
         done
